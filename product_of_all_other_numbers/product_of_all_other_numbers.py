@@ -1,11 +1,30 @@
-'''
-Input: a List of integers
-Returns: a List of integers
-'''
-def product_of_all_other_numbers(arr):
-    # Your code here
+# FIRST PASS SOLUTION:
+"""
+NOTE: arr[index] = product_of_everything_before * product_of_everything_after
 
-    pass
+THERE MIGHT BE A MORE ELEGANT SOLUTION BUT THIS DOES THE JOB...
+    ...AND IT MEETS THE O(n) TIME & SPACE CONSTRAINTS...
+    ...AND NO DIVISION!!!
+
+I'LL TAKE IT!
+"""
+def product_of_all_other_numbers(arr):
+    if len(arr) > 1:
+        prefix_products = arr[:]
+        suffix_products = arr[:]
+
+        for i in range(1, len(arr)):
+            prefix_products[i] *= prefix_products[i-1]    
+        for i in range(len(arr)-2, -1, -1):
+            suffix_products[i] *= suffix_products[i+1]
+        for i in range(len(arr)):
+            if i == 0:
+                arr[i] = suffix_products[i+1]
+            elif i == len(arr)-1:
+                arr[i] = prefix_products[i-1]
+            else:
+                arr[i] = prefix_products[i-1]*suffix_products[i+1]
+    return arr
 
 
 if __name__ == '__main__':
